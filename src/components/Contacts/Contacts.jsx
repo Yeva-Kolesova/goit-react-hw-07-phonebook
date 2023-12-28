@@ -2,19 +2,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from 'store/operations';
 import { selectContacts, selectFilter } from 'store/selector';
 
-const Contact = ({ id, name, number, onDeleteContact }) => {
+const Contact = ({ id, name, phone, onDeleteContact }) => {
   return (
     <li>
-      <p>
-        {name}: {number}
+      <p >
+        {name}: {phone}
       </p>
-      <button onClick={() => onDeleteContact(id)}>Delete</button>
+      <button onClick={() => onDeleteContact(id)}>
+        Delete
+      </button>
     </li>
   );
 };
 
 
-const ContactList = () => {
+export const ContactList = () => {
   const contacts = useSelector(selectContacts);
   const filterText = useSelector(selectFilter);
 
@@ -44,5 +46,3 @@ const ContactList = () => {
     </>
   );
 };
-
-export default ContactList;
