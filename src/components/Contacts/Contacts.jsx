@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from 'store/operations';
 import { selectContacts, selectFilter } from 'store/selector';
+import { Contact } from '../Contact/Contact';
 
-const ContactList = () => {
+export const ContactList = () => {
   const contacts = useSelector(selectContacts);
   const filterText = useSelector(selectFilter);
 
@@ -22,16 +23,13 @@ const ContactList = () => {
     <>
       <ul>
         {getFilteredContacts().map(contact => (
-          <li>
-            <p>
-              {contact.name}: {contact.phone}
-            </p>
-            <button onClick={() => handleDeleteContact()}>Delete</button>
-          </li>
+          <Contact
+            key={contact.id}
+            {...contact}
+            onDeleteContact={handleDeleteContact}
+          />
         ))}
       </ul>
     </>
   );
 };
-
-export default ContactList;
