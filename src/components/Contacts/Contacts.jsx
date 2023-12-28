@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from 'store/operations';
 import { selectContacts, selectFilter } from 'store/selector';
-
+import { Contact } from 'components/Contact/Contact';
 const Contact = ({ id, name, phone, onDeleteContact }) => {
   return (
     <li>
