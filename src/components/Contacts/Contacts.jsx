@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact, fetchContacts } from 'store/contacts/operations';
-import { selectContacts, selectFilter } from 'store/contacts/selectors';
-
+import { deleteContact } from 'store/operations';
+import { selectContacts, selectFilter } from 'store/selector';
 
 const Contact = ({ id, name, number, onDeleteContact }) => {
   return (
@@ -15,14 +13,12 @@ const Contact = ({ id, name, number, onDeleteContact }) => {
   );
 };
 
-export const Contacts = () => {
+
+const ContactList = () => {
   const contacts = useSelector(selectContacts);
   const filterText = useSelector(selectFilter);
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
+  const dispatch = useDispatch();
 
   const handleDeleteContact = contactId => {
     dispatch(deleteContact(contactId));
@@ -49,4 +45,4 @@ export const Contacts = () => {
   );
 };
 
-export default Contact;
+export default ContactList;
