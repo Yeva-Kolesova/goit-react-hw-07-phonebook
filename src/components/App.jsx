@@ -1,58 +1,30 @@
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './Contacts/Contacts';
-import Filter from './Filter/Filter';
+import Filter from '../components/Filter/Filter';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  createContactAction,
-  deleteContactAction,
-  setFilterAction,
-} from '../store/contactsSlice';
+import { useEffect } from 'react';
+import { fetchContacts } from 'store/operations';
+import { selectError, selectIsLoading } from 'store/selector';
 
 export const App = () => {
-  const contacts = useSelector(state => state.contacts.contacts);
-  const filter = useSelector(state => state.contacts.filter);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
 
   const dispatch = useDispatch();
 
-  const createContact = contact => {
-    const isName = contacts.find(
-      item => item.name.toLowerCase() === contact.name.toLowerCase()
-    );
-    if (!isName) {
-      dispatch(createContactAction(contact));
-    } else {
-      alert(`${contact.name} is already in contacts`);
-    }
-  };
-
-  const handleDeleteContact = contactId => {
-    dispatch(deleteContactAction(contactId));
-  };
-
-  const handleSetFilter = e => {
-    dispatch(setFilterAction(e.target.value));
-  };
-
-  const getFilteredContacts = () =>
-    contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
-    );
-
-  const filteredContacts = getFilteredContacts();
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <div>
       <h1>Phonebook</h1>
-      <ContactForm createContact={createContact} />
-
+      <ContactForm />
+      {isLoading && <h1>Loading...</h1>}
+      {error && <h1>{error}</h1>}
       <h2>Contacts</h2>
-      <Filter onChange={handleSetFilter} value={filter} />
-      <ContactList
-        contacts={filteredContacts}
-        onDeleteContact={handleDeleteContact}
-      />
+      <Filter />
+      <ContactList />
     </div>
   );
 };
-
-export default App;
